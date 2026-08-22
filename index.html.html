@@ -478,117 +478,33 @@ footer{ background:var(--black); border-top:1px solid var(--line); padding:70px 
 }
 
 @media (max-width:768px){
-    nav{
-        padding:12px 16px;
-        min-height:68px;
-        position:fixed;
-        top:0;
-        left:0;
-        right:0;
-        z-index:2000;
-    }
-
-    nav.scrolled{ padding:10px 16px; }
-
-    nav .logo{
-        max-width:calc(100% - 65px);
-        min-width:0;
-        padding-inline-end:48px;
-    }
-
-    nav .logo .brand-name{
-        display:block;
-        overflow:hidden;
-        text-overflow:ellipsis;
-        white-space:nowrap;
-    }
-
-    .hamburger{
-        display:flex !important;
-        position:absolute;
-        inset-inline-end:16px;
-        top:50%;
-        transform:translateY(-50%);
-        width:42px;
-        height:42px;
-        padding:9px;
-        align-items:center;
-        justify-content:center;
-        flex-direction:column;
-        gap:5px;
-        background:var(--black-3);
-        border:1px solid var(--line);
-        border-radius:9px;
-        z-index:2100;
-        flex-shrink:0;
-    }
-
-    .hamburger span{
-        display:block;
-        width:24px;
-        height:2px;
-        flex-shrink:0;
-    }
-
-    .hamburger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
-    .hamburger.open span:nth-child(2){ opacity:0; }
-    .hamburger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
-
-    .nav-right{
-        margin-inline-start:auto;
-        padding-inline-end:52px;
-    }
-
-    .lang-group{ display:none; }
-    .nav-order-btn{ display:none; }
-
     nav ul.nav-links{
-        position:fixed;
-        top:0;
-        inset-inline-end:-100%;
-        width:min(82vw,320px);
-        height:100dvh;
-        min-height:100vh;
-        margin:0;
-        padding:90px 24px 40px;
-        background:var(--black-2);
-        flex-direction:column;
-        justify-content:flex-start;
-        align-items:center;
-        gap:24px;
-        overflow-y:auto;
-        overscroll-behavior:contain;
-        transition:inset-inline-end .35s ease;
-        box-shadow:-10px 0 30px rgba(0,0,0,.5);
-        border-inline-start:1px solid var(--line);
-        z-index:2050;
+        position:fixed; top:0; inset-inline-end:-100%; right:-100%; width:75%; max-width:300px; height:100vh;
+        background:var(--black-2); flex-direction:column; justify-content:center; align-items:center;
+        gap:28px; transition:.35s; box-shadow:-10px 0 30px rgba(0,0,0,.5); border-inline-start:1px solid var(--line);
+        z-index:1050; visibility:hidden; pointer-events:none; opacity:0;
     }
-
+    nav ul.nav-links.open{
+        inset-inline-end:0; right:0; visibility:visible; pointer-events:auto; opacity:1;
+    }
+    [dir="rtl"] nav ul.nav-links{ inset-inline-end:auto; left:-100%; right:auto; }
+    [dir="rtl"] nav ul.nav-links.open{ left:0; right:auto; }
+    .hamburger{ display:flex; }
+    .nav-order-btn{ display:none; }
+    .hero h1{ font-size:38px; }
+    .hero p.tagline{ font-size:16px; }
+    .hero-stats{ gap:22px; }
+    .section-title{ font-size:28px; }
+    section{ padding:70px 6%; }
+    .footer-grid{ grid-template-columns:1fr; gap:32px; }
+    .footer-bottom{ flex-direction:column; align-items:flex-start; }
+    .menu-tabs{ justify-content:flex-start; overflow-x:auto; flex-wrap:nowrap; padding-bottom:6px; -webkit-overflow-scrolling:touch; }
+    .menu-tabs::-webkit-scrollbar{ display:none; }
+    .menu-grid{ grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); }
+}
     nav ul.nav-links.open{ inset-inline-end:0; }
-
-    nav ul.nav-links li{
-        width:100%;
-        text-align:center;
-    }
-
-    nav ul.nav-links a{
-        display:block;
-        width:100%;
-        padding:12px 10px;
-        font-size:17px;
-    }
-
-    body.menu-open::after{
-        content:"";
-        position:fixed;
-        inset:0;
-        background:rgba(0,0,0,.60);
-        z-index:2040;
-    }
-
-    body.menu-open{ overflow:hidden; }
-
-    .hero{ padding-top:110px; }
+    .hamburger{ display:flex; }
+    .nav-order-btn{ display:none; }
     .hero h1{ font-size:38px; }
     .hero p.tagline{ font-size:16px; }
     .hero-stats{ gap:22px; }
@@ -615,7 +531,7 @@ footer{ background:var(--black); border-top:1px solid var(--line); padding:70px 
         </span>
     </div>
 
-    <button class="hamburger" id="hamburger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
 
     <ul class="nav-links" id="navLinks">
         <li><a href="#home" data-i18n="navHome">الرئيسية</a></li>
@@ -1214,43 +1130,15 @@ document.querySelectorAll(".lang-option, .footer-lang button").forEach(btn=>{
 ========================================================= */
 const hamburger = document.getElementById("hamburger");
 const navLinks = document.getElementById("navLinks");
-
-function closeMobileMenu(){
-    hamburger.classList.remove("open");
-    navLinks.classList.remove("open");
-    document.body.classList.remove("menu-open");
-    hamburger.setAttribute("aria-expanded", "false");
-}
-
-function toggleMobileMenu(){
-    const isOpen = hamburger.classList.toggle("open");
-    navLinks.classList.toggle("open", isOpen);
-    document.body.classList.toggle("menu-open", isOpen);
-    hamburger.setAttribute("aria-expanded", String(isOpen));
-}
-
-hamburger.addEventListener("click", toggleMobileMenu);
-
+hamburger.addEventListener("click", ()=>{
+    hamburger.classList.toggle("open");
+    navLinks.classList.toggle("open");
+});
 navLinks.querySelectorAll("a").forEach(link=>{
-    link.addEventListener("click", closeMobileMenu);
-});
-
-document.addEventListener("click", event=>{
-    if(
-        document.body.classList.contains("menu-open") &&
-        !navLinks.contains(event.target) &&
-        !hamburger.contains(event.target)
-    ){
-        closeMobileMenu();
-    }
-});
-
-document.addEventListener("keydown", event=>{
-    if(event.key === "Escape") closeMobileMenu();
-});
-
-window.addEventListener("resize", ()=>{
-    if(window.innerWidth > 768) closeMobileMenu();
+    link.addEventListener("click", ()=>{
+        hamburger.classList.remove("open");
+        navLinks.classList.remove("open");
+    });
 });
 
 const mainNav = document.getElementById("mainNav");
